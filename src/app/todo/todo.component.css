@@ -1,7 +1,3 @@
-span.completed {
-  text-decoration: line-through;
-}
-
 :host {
   display: block;
   padding: 10px 15px 10px 5px;
@@ -12,13 +8,16 @@ span.completed {
   display: flex;
   justify-content: space-between;
 }
-
 span > button {
   margin-right: 5px;
 }
-
 span.completed {
   text-decoration: line-through;
+}
+
+span.finish-date {
+  font-style: 16px;
+  margin-left: 10px;
 }
 
 button.delete {
