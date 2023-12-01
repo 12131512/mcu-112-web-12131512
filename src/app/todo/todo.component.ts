@@ -20,6 +20,9 @@ export class TodoComponent {
   @Input({ required: true })
   task!: Todo;
 
+  @Output()
+  remove = new EventEmitter<void>();
+
   @Input()
   finishDate?: Date;
   @Output()
