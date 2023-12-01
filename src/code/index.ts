@@ -1,17 +1,17 @@
-import { Todo } from "./todo";
+import { Todo } from '../app/model/todo';
 
 const todos = [
-    new Todo(1, "期中考作業"),
-    new Todo(2, "期中考作業-2"),
-    new Todo(3, "期中考作業-3"),
-  ];
-  
-  todos[0].setFinished(new Date());
+  new Todo(1, '期中考作業'),
+  new Todo(2, '期中考作業-2'),
+  new Todo(3, '期中考作業-3'),
+];
 
-  console.log("To Do: ", todos);
-  console.table(todos);
+todos[0].setFinished(new Date());
 
-  function setTaskFinished(todo: Todo, finishDate: Date): void {
-    todo.hasFinished = true;
-    todo.finishDate = finishDate;
-  }
+console.log('To Do: ', todos);
+console.table(todos);
+
+function setTaskFinished(todo: Todo, finishDate: Date): void {
+  todo.hasFinished = true;
+  todo.finishDate = finishDate;
+}
