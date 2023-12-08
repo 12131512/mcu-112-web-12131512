@@ -24,8 +24,9 @@ export class TodoComponent {
   @Output()
   remove = new EventEmitter<void>();
 
-  @Input()
-  finishDate?: Date;
+  @Output()
+  view = new EventEmitter<void>();
+
   @Output()
   readonly stateChange = new EventEmitter<boolean>();
 
