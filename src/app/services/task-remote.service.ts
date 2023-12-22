@@ -14,7 +14,6 @@ export class TaskRemoteService {
   getAll(): Observable<Todo[]> {
     return this.httpClient.get<Todo[]>(this.url);
   }
-
   add(content: string): Observable<Todo> {
     const task = new Todo({ content });
     return this.httpClient.post<Todo>(this.url, task);
@@ -24,6 +23,7 @@ export class TaskRemoteService {
     const task = new Todo({ content, hasFinished });
     return this.httpClient.put<Todo>(`${this.url}/${id}`, task);
   }
+
   remove(id: number): void {
     throw new Error('Method not implemented.');
   }
