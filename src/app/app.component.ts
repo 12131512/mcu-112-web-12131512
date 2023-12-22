@@ -1,13 +1,20 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-
+import {
+  BehaviorSubject,
+  merge,
+  Observable,
+  startWith,
+  Subject,
+  switchMap,
+} from 'rxjs';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { Todo } from './model/todo';
-import { TaskRemoteService } from './services/task-remote.service';
+import { TaskService } from './services/task.service';
 import { TodoDetailComponent } from './todo-detail/todo-detail.component';
+import { TodoFormComponent } from './todo-form/todo-form.component';
 import { TodoListComponent } from './todo-list/todo-list.component';
-import { Observable, Subject, startWith, switchMap } from 'rxjs';
 import { TodoSearchComponent } from './todo-search/todo-search.component';
 
 @Component({
@@ -20,37 +27,36 @@ import { TodoSearchComponent } from './todo-search/todo-search.component';
     TodoListComponent,
     TodoDetailComponent,
     TodoSearchComponent,
+    TodoFormComponent,
     FooterComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  taskService = inject(TaskRemoteService);
-
+  taskService = inject(TaskService);
   tasks$!: Observable<Todo[]>;
-
+  readonly search$ = new BehaviorSubject<string | null>(null);
   readonly refresh$ = new Subject<void>();
-
   selectedId?: number;
-
   ngOnInit(): void {
-    this.tasks$ = this.refresh$.pipe(
-      startWith(undefined),
-      switchMap(() => this.taskService.getAll())
-    );
+    this.tasks$ = merge(
+      this.refresh$.pipe(startWith(undefined)),
+      this.search$
+    ).pipe(switchMap(() => this.taskService.getAll(this.search$.value)));
   }
-
   onAdd(): void {
     this.taskService.add('待辦事項 C').subscribe(() => this.refresh$.next());
   }
-
   onRemove(id: number): void {
-    this.taskService.remove(id);
+    this.taskService.remove(id).subscribe(() => this.refresh$.next());
   }
   onStateChange({ task, state }: { task: Todo; state: boolean }): void {
     this.taskService
       .updateState(task, state)
       .subscribe(() => this.refresh$.next());
+  }
+  onSearch(content: string | null): void {
+    this.search$.next(content);
   }
 }
