@@ -14,8 +14,10 @@
       <button type="button" (click)="onAddTag()">新增</button>
     </div>
   </div>
-  <div>
-    class="form-item" *ngFor="let control of tags.controls; let index = index" >
+  <div
+    class="form-item"
+    *ngFor="let control of tags.controls; let index = index"
+  >
     <div class="form-column">
       <label>
         <button type="button" (click)="tags.removeAt(index)">刪除</button>
