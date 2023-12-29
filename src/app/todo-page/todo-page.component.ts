@@ -27,13 +27,15 @@ import { Router } from '@angular/router';
     HeaderComponent,
     TodoListComponent,
     TodoSearchComponent,
-    TodoFormComponent,
     FooterComponent,
   ],
   templateUrl: './todo-page.component.html',
   styleUrl: './todo-page.component.css',
 })
 export class TodoPageComponent implements OnInit {
+  onRemove($event: number) {
+    throw new Error('Method not implemented.');
+  }
   taskService = inject(TaskService);
   tasks$!: Observable<Todo[]>;
   readonly search$ = new BehaviorSubject<string | null>(null);
@@ -51,8 +53,8 @@ export class TodoPageComponent implements OnInit {
   onSave(task: Todo): void {
     this.taskService.add(task).subscribe(() => this.refresh$.next());
   }
-  onRemove(id: number): void {
-    this.taskService.remove(id).subscribe(() => this.refresh$.next());
+  onAdd(): void {
+    this.router.navigate(['todo-form']);
   }
   onStateChange({ task, state }: { task: Todo; state: boolean }): void {
     this.taskService
